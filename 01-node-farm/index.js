@@ -14,30 +14,32 @@ const dataObject = JSON.parse(data);
 const slugs = dataObject.map(el => slugify(el.productName, {lower: true}));
 
 const server = http.createServer((req, res) => {
-    
-    const { query, pathname } = url.parse(req.url, true);
+
+    const {query, pathname} = url.parse(req.url, true);
 
     // Overview page
-    if(pathname === '/' || pathname === '/overview') {
+    if (pathname === '/' || pathname === '/overview') {
         res.writeHead(200, {'Content-type': 'text/html'})
 
-        const cardsHtml = dataObject.map(el => replaceTemplate(tempCard, el)).join('');
+        const cardsHtml = dataObject
+            .map(el => replaceTemplate(tempCard, el))
+            .join('');
         const output = tempOverview.replace(/{%PRODUCT_CARDS%}/g, cardsHtml)
 
         res.end(output)
 
-    // Product page
+        // Product page
     } else if (pathname === '/product') {
-        res.writeHead(200, {'Content-type': 'text/html'});
+        res.writeHead(200, {'Content-type': "text/html"});
         const product = dataObject[query.id];
         const output = replaceTemplate(tempProduct, product);
         res.end(output)
 
-    // API
+        // API
     } else if (pathname === '/api') {
         res.writeHead(200, {'Content-type': 'application/json'})
         res.end(data)
-    // Not found
+        // Not found
     } else {
         res.writeHead(404, {
             'Content-type': 'text/html',
