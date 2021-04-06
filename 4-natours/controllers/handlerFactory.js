@@ -77,6 +77,7 @@ exports.getAll = (Model) =>
       .paginate();
 
     // EXECUTE QUERY
+    //const documents = await features.query.explain();
     const documents = await features.query;
 
     // SEND RESPONSE
