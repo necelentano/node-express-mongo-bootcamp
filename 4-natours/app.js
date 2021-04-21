@@ -60,6 +60,14 @@ app.use(
     ],
   })
 );
+// Content Security Policy fix
+app.use((req, res, next) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    'connect-src https://api.mapbox.com https://events.mapbox.com'
+  );
+  next();
+});
 
 // Test middleware
 app.use((req, res, next) => {
